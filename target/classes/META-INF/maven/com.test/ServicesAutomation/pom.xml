@@ -1,0 +1,91 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.test</groupId>
+  <artifactId>ServicesAutomation</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>service automation</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<soapui.version>1.9.0</soapui.version>
+		<soapui.results.dir>${project.build.directory}/soapui</soapui.results.dir>
+		<soapuiFiles.home.dir>${basedir}/src/test/resources</soapuiFiles.home.dir>
+		<endpoint></endpoint>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.jfxtras</groupId>
+			<artifactId>javafx-maven-plugin</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+	</dependencies>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>eviwarePluginRepository</id>
+			<url>http://www.soapui.org/repository/maven2/</url>
+		</pluginRepository>
+	</pluginRepositories>
+	<repositories>
+		<repository>
+			<id>my-repo1</id>
+			<name>eviware</name>
+			<url>http://www.soapui.org/repository/maven2/</url>
+		</repository>
+	</repositories>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.smartbear</groupId>
+				<artifactId>ready-api-maven-plugin</artifactId>
+				<version>${soapui.version}</version>
+				<configuration>
+					<soapuiProperties>
+						<property>
+							<name>soapui.scripting.library</name>
+							<value>${project.basedir}/src/main/groovy</value>
+						</property>
+						<property>
+							<name>soapui.ext.libraries</name>
+							<value>${project.build.directory}/dependency</value>
+						</property>
+						<property>
+							<name>soapui.logroot</name>
+							<value>${soapui.results.dir}/</value>
+						</property>
+					</soapuiProperties>
+					<junitReport>true</junitReport>
+					<printReport>true</printReport>
+					<coverage>${soapui.results.dir}</coverage>
+					<settingsFile>${soapuiFiles.home.dir}/configs/empty-soapui-settings.xml</settingsFile>
+				</configuration>
+				<executions>
+					<execution>
+						<id>service-tests</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<projectFile>${soapuiFiles.home.dir}/Weather-soapui-project</projectFile>
+							<outputFolder>${soapui.results.dir}/AppTests</outputFolder>
+							<testFailIgnore>false</testFailIgnore>
+							<!-- <projectProperties>
+								<projectProperty>endpoint=${endpoint}</projectProperty>
+							</projectProperties> -->
+						</configuration>
+					</execution>
+
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

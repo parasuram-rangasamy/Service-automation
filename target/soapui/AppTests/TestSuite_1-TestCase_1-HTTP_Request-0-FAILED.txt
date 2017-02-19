@@ -1,0 +1,10 @@
+Status: FAILED
+Time Taken: 0
+Size: 0
+Timestamp: Sun Feb 19 09:10:53 EST 2017
+TestStep: HTTP Request
+
+----------------- Messages ------------------------------
+org.apache.http.conn.HttpHostConnectException: Connect to 192.168.5.100:3128 [/192.168.5.100] failed: Connection refused
+
+- missing response / garbage collected -
